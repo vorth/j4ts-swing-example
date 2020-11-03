@@ -108,6 +108,34 @@ public class Main {
         console.info("end testing enums");
     }
 
+    @FunctionalInterface
+    static interface O {
+        void doSomething();
+    }
+
+    static class OImpl implements O {
+        @Override
+        public void doSomething() {
+            System.out.println("OImpl called");
+            callCount++;
+        }
+    }
+
+    static interface O2 {
+        void doSomething2();
+    }
+
+    static <T> void overloadWithGenerics(T p1) {
+        callCount++;
+        overloadWithGenerics(p1, null);
+    }
+
+    static <T, T2> void overloadWithGenerics(T p1, T2 p2) {
+        callCount++;
+    }
+    
+    static int callCount;
+
     public static void testArrays() {
         console.info("testing arrays");
         String[] srcArray = { "a", "b", "c" };
@@ -120,6 +148,21 @@ public class Main {
         assertEquals(3, myArray[0]);
         Arrays.sort(myArray);
         assertEquals(1, myArray[0]);
+
+        O o = () -> {
+            System.out.println("o called");
+            callCount++;
+        };
+        O2 o2 = () -> {
+            System.out.println("o2 called");
+            callCount++;
+        };
+        O oi = new OImpl();
+        oi.doSomething(); 
+        assert callCount == 3;
+        
+        Main.<String>overloadWithGenerics("kk");
+        assert callCount == 5;
 
         List<String> l = asList("a", "b", "c", "d");
 
