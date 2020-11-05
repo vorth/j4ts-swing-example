@@ -31,6 +31,10 @@ public class Main {
         System.out.println("**** starting TEST SUITE ");
         test();
         test2();
+        
+        console.info("******************************************");
+        console.info("*        TEST SUITES [SUCCESS] ✅✅✅ ");
+        console.info("******************************************");
     }
 
     public static void assertArrayEquals(Object[] o1, Object[] o2) {
