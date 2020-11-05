@@ -8,6 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Test
+      run: node -v
+      
+    - name: Test 2
+      run: cat 'console.log("coucou");' > test.js
+      
+    - name: Test 3
+      run: node  test.js
+      
+
     - uses: actions/checkout@v2
     - name: Set up JDK 1.11
       uses: actions/setup-java@v1
