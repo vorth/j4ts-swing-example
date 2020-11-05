@@ -26,9 +26,16 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/download-artifact@master
+    - name: Download JS file
+      uses: actions/download-artifact@master
       with:
         name: j4ts-example-bundle.js
         path: j4ts-example-bundle.js
-
-    - run: node j4ts-example-bundle.js
+    
+    - name: pwd
+      run: pwd
+    - name: ls
+      run: ls -alih
+      
+    - name: Run tests file
+      run: node j4ts-example-bundle.js
