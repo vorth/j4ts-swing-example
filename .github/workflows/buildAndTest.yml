@@ -21,7 +21,8 @@ jobs:
         name: j4ts-example-bundle.js
         path: target/j4ts-example-bundle.js
         
-        
+    - name: Run tests file
+      run: node j4ts-example-bundle.js
   test:
     needs: [build]
     runs-on: ubuntu-latest
