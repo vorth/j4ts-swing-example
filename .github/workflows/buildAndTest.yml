@@ -13,7 +13,7 @@ jobs:
       run: node -v
       
     - name: Test 2
-      run: cat 'console.log("coucou");' > test.js
+      run: echo 'console.log("coucou");' > test.js
       
     - name: Test 3
       run: node  test.js
