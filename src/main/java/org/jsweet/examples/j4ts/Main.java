@@ -1,7 +1,6 @@
 package org.jsweet.examples.j4ts;
 
 import static def.dom.Globals.console;
-import static def.dom.Globals.document;
 import static def.js.Globals.undefined;
 import static java.util.Arrays.asList;
 import static jsweet.util.Lang.any;
@@ -24,16 +23,33 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import def.dom.HTMLElement;
+import def.js.Array;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("coucou");
+    public static void main(String[] args) throws Exception {
+        System.out.println("**********************************************************************");
+        System.out.println("**** starting TEST SUITE ");
         test();
+        test2();
+    }
+
+    public static void assertArrayEquals(Object[] o1, Object[] o2) {
+        assertEquals(o1.length, o2.length);
+
+        for (int i = 0; i < o1.length; i++) {
+            assertEquals(o1[i], o2[i]);
+        }
     }
 
     public static void assertEquals(Object o1, Object o2) {
-        if (!(o1 == o2)) {
+        if (Array.isArray(o1) && Array.isArray(o2)) {
+            assertArrayEquals((Object[]) o1, (Object[]) o2);
+            return;
+        }
+        boolean equals = o1 == o2 || (o1 != null && o2 != null && o1.equals(o2));
+        if (!(equals)) {
+            System.out.println(Array.isArray(o1) + " // " + o1 + " // " + (o1 == null ? "null" : o1.getClass()));
+            System.out.println(Array.isArray(o2) + " // " + o2 + " // " + (o2 == null ? "null" : o2.getClass()));
             throw new Error("invalid assertion: " + o1 + "!=" + o2);
         }
     }
@@ -50,8 +66,12 @@ public class Main {
         }
     }
 
-    public static void test() {
+    public static void test() throws Exception {
         try {
+            console.info("******************************************");
+            console.info("*        TEST SUITE #1 🤖                 ");
+            console.info("******************************************");
+            testCallables();
             testArrays();
             testList();
             testMap();
@@ -65,24 +85,43 @@ public class Main {
 
             console.info("OS NAME: " + System.getProperty("os.name"));
             console.info("Get input: ");
-            Scanner scanner = new Scanner(System.in);
-            if (scanner.hasNextLine()) {
-                console.info("Got input: " + scanner.nextLine());
-            } else {
-                console.info("No any input :(");
+            try (Scanner scanner = new Scanner(System.in)) {
+                if (scanner.hasNextLine()) {
+                    console.info("Got input: " + scanner.nextLine());
+                } else {
+                    console.info("No any input :(");
+                }
             }
 
-            HTMLElement result = document.getElementById("result");
-            if (result != null) {
-                result.innerHTML = "Success!";
-            }
         } catch (Exception e) {
             console.error(e);
-            HTMLElement result = document.getElementById("result");
-            if (result != null) {
-                result.innerHTML = "Failure: " + e.getMessage();
-            }
+            throw e;
         }
+    }
+
+    private static void testCallables() {
+        System.out.println("** TEST: Callables");
+
+        O o = () -> {
+            System.out.println("> functional interface o called");
+            callCount++;
+        };
+
+        o.doSomething();
+
+        O2 o2 = () -> {
+            System.out.println("> interface o2 called");
+            callCount++;
+        };
+        o2.doSomething2();
+
+        O oi = new OImpl();
+        oi.doSomething();
+
+        assert callCount == 3;
+
+        Main.<String>overloadWithGenerics("kk");
+        assert callCount == 5;
     }
 
     public static int comp1(Comparable<MyComplexEnum> e) {
@@ -116,7 +155,7 @@ public class Main {
     static class OImpl implements O {
         @Override
         public void doSomething() {
-            System.out.println("OImpl called");
+            System.out.println("> functional interface implementing class OImpl called");
             callCount++;
         }
     }
@@ -133,11 +172,11 @@ public class Main {
     static <T, T2> void overloadWithGenerics(T p1, T2 p2) {
         callCount++;
     }
-    
+
     static int callCount;
 
     public static void testArrays() {
-        console.info("testing arrays");
+        console.info("** TEST: Arrays");
         String[] srcArray = { "a", "b", "c" };
         String[] dstArray = new String[srcArray.length - 1];
         System.arraycopy(srcArray, 1, dstArray, 0, srcArray.length - 1);
@@ -149,29 +188,15 @@ public class Main {
         Arrays.sort(myArray);
         assertEquals(1, myArray[0]);
 
-        O o = () -> {
-            System.out.println("o called");
-            callCount++;
-        };
-        O2 o2 = () -> {
-            System.out.println("o2 called");
-            callCount++;
-        };
-        O oi = new OImpl();
-        oi.doSomething(); 
-        assert callCount == 3;
-        
-        Main.<String>overloadWithGenerics("kk");
-        assert callCount == 5;
-
         List<String> l = asList("a", "b", "c", "d");
-
         assertEquals(4, l.size());
 
         // TODO: fix type exception
         String[] a = any(Arrays.copyOf(l.toArray(new String[0]), 3));
-
         assertEquals(3, a.length);
+
+        var test = "> var keyword tested";
+        System.out.println(test);
 
         Comparator<String> reverse = new Comparator<String>() {
             @Override
@@ -184,11 +209,11 @@ public class Main {
         // TODO: fix varargs
         assertEquals("[c, b, a]", asList(a[0], a[1], a[2]).toString());
 
-        console.info("end testing arrays");
+        console.info("> end testing arrays");
     }
 
     public static void testList() {
-        console.info("testing lists");
+        console.info("** TEST: Lists");
         List<String> l = new ArrayList<String>();
         l.add("a");
         l.add("b");
@@ -227,7 +252,7 @@ public class Main {
     }
 
     public static void testSet() {
-        console.info("testing sets");
+        console.info("** TEST: Sets");
         Set<String> s = new HashSet<String>();
         s.add("a");
         s.add("a");
@@ -257,7 +282,7 @@ public class Main {
     }
 
     public static void testMap() {
-        console.info("testing maps");
+        console.info("** TEST: Maps");
         Map<String, String> m = new HashMap<String, String>();
         m.put("a", "aa");
         m.put("b", "bb");
@@ -296,7 +321,7 @@ public class Main {
     }
 
     public static void testString() {
-        console.info("testing strings");
+        console.info("** TEST: Strings");
         StringBuilder sb = new StringBuilder();
         sb.append(true);
         sb.append('c');
@@ -317,14 +342,14 @@ public class Main {
     }
 
     public static void testIO() throws IOException {
-        console.info("testing io");
+        console.info("** TEST: IO");
         ByteArrayInputStream s = new ByteArrayInputStream("abc".getBytes());
         assertEquals(Character.getNumericValue('a'), s.read());
         console.info("end testing io");
     }
 
     public static void testStreams() {
-        console.info("testing streams");
+        console.info("** TEST: Streams");
         List<String> l = new ArrayList<String>();
         l.add("a");
         l.add("b");
@@ -383,6 +408,141 @@ public class Main {
         return new MyKey("a");
     }
 
+    static void test2() {
+        console.info("******************************************");
+        console.info("*        TEST SUITE #2 🤖                 ");
+        console.info("******************************************");
+        testStreamCollectList();
+        testStreamCollectMap();
+        testStreamCollectSet();
+        testStreamFilter();
+        testStreamSortLiteralList();
+        testStreamMap();
+        testStreamCount();
+        testStreamLimit();
+        testStreamSkip();
+        testStreamFilterAndMap();
+        testStreamFlatMap();
+        testStreamForEach();
+        testStreamOf();
+        testIntStreamRange();
+        testCollectionRemoveIf();
+    }
+
+    public static void testStreamCollectList() {
+        console.info("** testStreamCollectList");
+        assertEquals(asList(1, 2, 3), stream(asList(1, 2, 3)).collect(Collectors.toList()));
+        assertEquals(asList(1), stream(asList(1)).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList()).collect(Collectors.toList()));
+    }
+
+    public static void testStreamCollectMap() {
+        console.info("** testStreamCollectMap");
+        Map<Integer, Integer> m = new HashMap<>();
+        m.put(1, 2);
+        m.put(2, 4);
+        assertEquals(m, stream(asList(1, 2)).collect(Collectors.toMap(a -> a, a -> a * 2)));
+        assertEquals(new HashMap<>(), stream(asList()).collect(Collectors.toMap(a -> a, a -> a)));
+    }
+
+    public static void testStreamCollectSet() {
+        console.info("** testStreamCollectSet");
+        assertEquals(new HashSet<>(asList(1, 2, 3)), stream(asList(1, 2, 1, 3, 3)).collect(Collectors.toSet()));
+        assertEquals(new HashSet<>(asList(1)), stream(asList(1)).collect(Collectors.toSet()));
+        assertEquals(new HashSet<>(), stream(asList()).collect(Collectors.toSet()));
+    }
+
+    public static void testStreamFilter() {
+        console.info("** testStreamFilter");
+        assertEquals(asList(2), stream(asList(1, 2, 3)).filter(x -> (x % 2 == 0)).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList(1)).filter(x -> (x % 2 == 0)).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList()).filter(x -> ((Integer) x) % 2 == 0).collect(Collectors.toList()));
+    }
+
+    public static void testStreamSortLiteralList() {
+        console.info("** testStreamSortLiteralList");
+        assertEquals(asList(3, 2, 1), stream(asList(1, 2, 3)).sorted((a, b) -> b - a).collect(Collectors.toList()));
+        assertEquals(asList(1), stream(asList(1)).sorted((a, b) -> b - a).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList()).sorted((a, b) -> 0).collect(Collectors.toList()));
+    }
+
+    public static void testStreamMap() {
+        console.info("** testStreamMap");
+        assertEquals(asList(2, 4, 6), stream(asList(1, 2, 3)).map(x -> x * 2).collect(Collectors.toList()));
+        assertEquals(asList(2), stream(asList(1)).map(x -> x * 2).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList()).map(x -> 1).collect(Collectors.toList()));
+    }
+
+    public static void testStreamCount() {
+        console.info("** testStreamCount");
+        assertEquals(3, stream(asList(1, 2, 3)).count());
+        assertEquals(1, stream(asList(1)).count());
+        assertEquals(0, stream(asList()).count());
+    }
+
+    public static void testStreamLimit() {
+        console.info("** testStreamLimit");
+        assertEquals(asList(1, 2), stream(asList(1, 2, 3, 4)).limit(2).collect(Collectors.toList()));
+        assertEquals(asList(1), stream(asList(1)).limit(1).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList()).limit(2).collect(Collectors.toList()));
+    }
+
+    public static void testStreamSkip() {
+        console.info("** testStreamSkip");
+        assertEquals(asList(3, 4), stream(asList(1, 2, 3, 4)).skip(2).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList(1)).skip(1).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList()).skip(2).collect(Collectors.toList()));
+    }
+
+    public static void testStreamFilterAndMap() {
+        console.info("** testStreamFilterAndMap");
+        assertEquals(asList(2, 6),
+                stream(asList(1, 2, 3, 4)).filter(x -> x % 2 == 1).map(x -> x * 2).collect(Collectors.toList()));
+        assertEquals(asList(), stream(asList(2)).filter(x -> x % 2 == 1).map(x -> x * 2).collect(Collectors.toList()));
+    }
+
+    public static void testStreamFlatMap() {
+        console.info("** testStreamFlatMap");
+        assertEquals(asList(0, 0, 1, 0, 1, 2), stream(asList(0, 1, 2)).flatMap(x -> {
+            final List<Integer> r = new ArrayList<>();
+            for (int i = 0; i <= x; ++i) {
+                r.add(i);
+            }
+            return r.stream();
+        }).collect(Collectors.toList()));
+    }
+
+    public static void testStreamForEach() {
+        console.info("** testStreamForEach");
+        List<Integer> result = new ArrayList<>();
+        asList(1, 2, 3).forEach(result::add);
+        assertEquals(asList(1, 2, 3), result);
+    }
+
+    public static void testStreamOf() {
+        console.info("** testStreamOf");
+        List<Integer> result = new ArrayList<>();
+        Stream.of(1, 2, 3).forEach(result::add);
+        assertEquals(asList(1, 2, 3), result);
+    }
+
+    public static void testIntStreamRange() {
+        console.info("** testIntStreamRange");
+        List<String> result = new ArrayList<>();
+//         IntStream.range(0, 3).mapToObj(String::valueOf).forEach(result::add);
+//         assertEquals(asList("0", "1", "2"), result);
+    }
+
+    public static void testCollectionRemoveIf() {
+        console.info("** testCollectionRemoveIf");
+        List<Integer> testList = stream(asList(0, 0, 1, 0, 1, 2)).collect(Collectors.toList());
+        assertTrue(testList.removeIf(item -> item.intValue() == 0));
+        assertEquals(asList(1, 1, 2), testList);
+    }
+
+    private static <T> Stream<T> stream(List<T> l) {
+        return l.stream();
+    }
 }
 
 class MyKey {

@@ -28,7 +28,7 @@
 		</license>
 	</licenses>
 	<properties>
-		<jsweet.transpiler.version>3.0.0-RC9</jsweet.transpiler.version>
+		<jsweet.transpiler.version>3.0.0-RC10</jsweet.transpiler.version>
 		<jsweet.j4ts.version>2.0.0-SNAPSHOT</jsweet.j4ts.version>
 
 		<java.version.release>11</java.version.release>
@@ -85,6 +85,7 @@
 					<tsserver>true</tsserver>
 					<targetVersion>ES6</targetVersion>
 					<candiesJsOut>target/candies</candiesJsOut>
+					<bundle>true</bundle>
 				</configuration>
 				<executions>
 					<execution>
@@ -99,6 +100,32 @@
 						<phase>clean</phase>
 						<goals>
 							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+ 			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<configuration>
+							<target>
+								<property name="targetBundlePath" value="${project.basedir}/target/${artifactId}-bundle.js"/>
+								<echo message="Generating full bundle to ${targetBundlePath}" />
+								<concat destfile="${targetBundlePath}"
+	                                    force="yes">
+	                                <filelist dir="${project.basedir}/target">
+	                                    <file name="candies/j4ts-2.0.0-SNAPSHOT/bundle.js" />
+	                                    <file name="candies/j4ts-2.0.0-SNAPSHOT/Manifest.js" />
+	                                    <file name="js/bundle.js" />
+	                                </filelist>
+	                            </concat>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
