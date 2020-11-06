@@ -1,4 +1,4 @@
-# JSweet J4TS example
+# JSweet J4TS example ![Build](https://github.com/lgrignon/j4ts-example/workflows/Build/badge.svg)
 
 Sample project for J4TS & JSweet
 
