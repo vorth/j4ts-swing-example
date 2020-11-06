@@ -8,18 +8,12 @@
 	<name>J4TS simple example</name>
 	<description>Sample project using JSweet + J4TS with Java 11</description>
 	<developers>
-		<developer>
-			<id>rpawlak</id>
-			<name>Renaud Pawlak</name>
-			<email>renaud.pawlak@gmail.com</email>
-		</developer>
-	</developers>
-	<contributors>
-		<contributor>
-			<name>Louis Grignon</name>
-			<email>louis.grignon@gmail.com</email>
-		</contributor>
-	</contributors>
+                <developer>
+                        <id>lgrignon</id>
+                        <name>Louis Grignon</name>
+                        <email>louis.grignon@gmail.com</email>
+                </developer>
+        </developers>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
