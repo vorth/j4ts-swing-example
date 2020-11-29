@@ -111,8 +111,8 @@
 								<concat destfile="${targetBundlePath}"
 	                                    force="yes">
 	                                <filelist dir="${project.basedir}/target">
-	                                    <file name="candies/j4ts-2.0.0-SNAPSHOT/bundle.js" />
-	                                    <file name="candies/j4ts-2.0.0-SNAPSHOT/Manifest.js" />
+	                                    <file name="candies/j4ts-2.0.0/bundle.js" />
+	                                    <file name="candies/j4ts-2.0.0/Manifest.js" />
 	                                    <file name="js/bundle.js" />
 	                                </filelist>
 	                            </concat>
