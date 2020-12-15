@@ -168,6 +168,10 @@
 			<artifactId>j4ts</artifactId>
 			<version>${jsweet.j4ts.version}</version>
 		</dependency>
-
+  <dependency>
+                        <groupId>org.jsweet</groupId>
+                        <artifactId>jsweet-core</artifactId>
+                        <version>6.3.0</version>
+                </dependency>
 	</dependencies>
 </project>
