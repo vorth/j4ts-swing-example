@@ -164,7 +164,7 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.jsweet.v3</groupId>
+			<groupId>org.jsweet</groupId>
 			<artifactId>j4ts</artifactId>
 			<version>${jsweet.j4ts.version}</version>
 		</dependency>
