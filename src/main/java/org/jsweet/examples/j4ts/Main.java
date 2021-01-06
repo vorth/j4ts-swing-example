@@ -31,7 +31,7 @@ public class Main {
         System.out.println("**** starting TEST SUITE ");
         test();
         test2();
-        
+
         console.info("******************************************");
         console.info("*        TEST SUITES [SUCCESS] ✅✅✅ ");
         console.info("******************************************");
@@ -466,7 +466,7 @@ public class Main {
     public static void testStreamSortLiteralList() {
         console.info("** testStreamSortLiteralList");
         assertEquals(asList(3, 2, 1), stream(asList(1, 2, 3)).sorted((a, b) -> b - a).collect(Collectors.toList()));
-        assertEquals(asList(1), stream(asList(1)).sorted((a, b) -> b - a).collect(Collectors.toList()));
+        assertEquals(asList(1), asList(1).stream().sorted((a, b) -> b - a).collect(Collectors.toList()));
         assertEquals(asList(), stream(asList()).sorted((a, b) -> 0).collect(Collectors.toList()));
     }
 
