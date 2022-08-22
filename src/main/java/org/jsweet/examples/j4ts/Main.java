@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 import def.js.Array;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void mainDisabled(String[] args) throws Exception {
         System.out.println("**********************************************************************");
         System.out.println("**** starting TEST SUITE ");
         test();
