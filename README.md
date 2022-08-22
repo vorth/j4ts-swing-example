@@ -12,7 +12,19 @@ methods are replaced with `mainDisabled()` at the moment.
 
 ## Usage
 
+NOTE: This project will only work if you have locally built and installed two other projects:
+
 ```
+git clone https://github.com/vorth/j4ts-file.git
+cd j4ts-file
+mvn clean jsweet:clean install
+cd ..
+
+git clone https://github.com/vorth/j4ts-awt-swing.git
+cd j4ts-awt-swing
+mvn clean jsweet:clean install
+cd ..
+
 git clone https://github.com/vorth/j4ts-swing-example.git
 cd j4ts-swing-example
 mvn clean compile && python3 -m http.server 9000
