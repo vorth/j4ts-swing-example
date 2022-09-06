@@ -23,8 +23,6 @@
 	</licenses>
 	<properties>
 		<jsweet.transpiler.version>3.2.0-SNAPSHOT</jsweet.transpiler.version>
-		<jsweet.j4ts.version>2.1.0-SNAPSHOT</jsweet.j4ts.version>
-
 		<java.version.release>11</java.version.release>
 		<java.version>1.${java.version.release}</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -163,11 +161,6 @@
 		</pluginManagement>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>org.jsweet</groupId>
-			<artifactId>j4ts</artifactId>
-			<version>${jsweet.j4ts.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.jsweet</groupId>
 			<artifactId>jsweet-core</artifactId>

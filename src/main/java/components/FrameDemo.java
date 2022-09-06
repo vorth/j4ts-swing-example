@@ -31,9 +31,23 @@
 
 package components;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Window;
+import java.awt.Font;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
 
 /* FrameDemo.java requires no other files. */
 public class FrameDemo {
@@ -47,7 +61,7 @@ public class FrameDemo {
         JFrame frame = new JFrame("FrameDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel emptyLabel = new JLabel("");
+        JLabel emptyLabel = new JLabel("This frame is showing");
         emptyLabel.setPreferredSize(new Dimension(175, 100));
         frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
 
@@ -56,7 +70,7 @@ public class FrameDemo {
         frame.setVisible(true);
     }
 
-    public static void mainDisabled(String[] args) {
+    public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

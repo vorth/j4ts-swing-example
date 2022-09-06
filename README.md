@@ -7,8 +7,11 @@ so most Swing applications would need major surgery to work this way.
 I intend to continue to submit PRs for the [`j4ts-awt-swing`](https://github.com/j4ts/j4ts-awt-swing)
 project that supports this one.
 
-I have included three sample apps from the Swing Tutorial.  Two of the `main()`
-methods are replaced with `mainDisabled()` at the moment.
+I have included three sample apps from the Swing Tutorial.  All of the `main()`
+methods are replaced with `mainDisabled()` at the moment, so that the applet
+example works.  Change any single `mainDisabled()` to `main()`, and that will
+override the applet automatically, except for `org.jsweet.example.j4ts.Main`,
+which doesn't render a JFrame.
 
 ## Usage
 

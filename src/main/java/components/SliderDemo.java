@@ -31,10 +31,26 @@
 
 package components;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Window;
+import java.awt.Font;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 /*
  * SliderDemo.java requires all the files in the images/doggy
@@ -219,7 +235,7 @@ public class SliderDemo extends JPanel
         animator.startAnimation(); 
     }
 
-    public static void main(String[] args) {
+    public static void mainDisabled(String[] args) {
         /* Turn off metal's use of bold fonts */
         // UIManager.put("swing.boldMetal", Boolean.FALSE);
         
